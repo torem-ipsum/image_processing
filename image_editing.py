@@ -176,11 +176,26 @@ while True:
         cv2.imshow("original", image)
         rotated = rot90(image)
         cv2.imshow("rotated", rotated)
+
     elif choice == "4":
         print("Do you want the grayscale to be gradual? (Y/N)")
         decision = input(">>> ")
         if decision == "Y":
-            grayscale_byrow(image, window = 'grayscale')
+            print("Choose how many rows at a time to turn to grayscale.")
+            print("(default = 100)")
+            width = input(">>> ")
+            if width == '':
+                width = 100
+            else:
+                width = int(width)
+            print("Choose the delay between each conversion in milliseconds.")
+            print("(default = 1000)")
+            delay = input(">>> ")
+            if delay == '':
+                delay = 1000
+            else:
+                delay = int(delay)
+            grayscale_byrow(image, window = 'grayscale', delay = delay, width = width)
         elif decision == "N":
             cv2.imshow("original", image)
             grayscale = grayscale(image)
@@ -189,6 +204,7 @@ while True:
             print("Invalid option.")
             print("Please try again:")
             continue
+        
     elif choice == "Q" or choice == "q":
         break
     else:
