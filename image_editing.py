@@ -102,6 +102,14 @@ def grayscale(image):
     grayscale = np.array(grayscale, dtype = 'uint8')
     return grayscale
 
+#convert to grayscale(gradual)
+def grayscale_byrow(image, window = 'image', delay = 1000, width=100):
+    cv2.imshow(window, image)
+    for i in range(0, image.shape[0], width):
+        image[i:i+width] = grayscale(image[i:i+width])
+        cv2.waitKey(delay)
+        cv2.imshow(window, image)
+
 print("Enter a picture file name.")
 filename = input(">>> ")
 try:
@@ -169,9 +177,18 @@ while True:
         rotated = rot90(image)
         cv2.imshow("rotated", rotated)
     elif choice == "4":
-        cv2.imshow("original", image)
-        grayscale = grayscale(image)
-        cv2.imshow("grayscale", grayscale)
+        print("Do you want the grayscale to be gradual? (Y/N)")
+        decision = input(">>> ")
+        if decision == "Y":
+            grayscale_byrow(image, window = 'grayscale')
+        elif decision == "N":
+            cv2.imshow("original", image)
+            grayscale = grayscale(image)
+            cv2.imshow("grayscale", grayscale)
+        else:
+            print("Invalid option.")
+            print("Please try again:")
+            continue
     elif choice == "Q" or choice == "q":
         break
     else:
